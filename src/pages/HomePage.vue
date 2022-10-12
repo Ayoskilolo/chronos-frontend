@@ -1,37 +1,4 @@
 <template>
-  <q-drawer v-model="drawer" show-if-above :width="200" :breakpoint="400">
-    <q-scroll-area
-      style="
-        height: calc(100% - 150px);
-        margin-top: 150px;
-        border-right: 1px solid #ddd;
-      "
-    >
-      <q-list padding>
-        <q-item clickable v-ripple>
-          <q-item-section avatar>
-            <q-icon name="shopping_cart"/>
-          </q-item-section>
-
-          <q-item-section><RouterLink to="/home/cart"> Cart </RouterLink></q-item-section>
-        </q-item>
-      </q-list>
-    </q-scroll-area>
-
-    <q-img
-      class="absolute-top"
-      src="https://cdn.quasar.dev/img/material.png"
-      style="height: 150px"
-    >
-      <div class="absolute-bottom bg-transparent">
-        <q-avatar size="56px" class="q-mb-sm">
-          <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
-        </q-avatar>
-        <div class="text-weight-bold">{{ userName }}</div>
-      </div>
-    </q-img>
-  </q-drawer>
-
   <q-page padding>
     <div
       class="row items-center justify-between"
@@ -133,15 +100,15 @@
 </template>
 
 <script>
-import { useAuthStore } from 'src/stores/auth';
-
 import { defineComponent } from 'vue';
 import { api } from 'boot/axios';
 import HomeContainer from '../components/HomeContainer.vue';
+
+import { useOrderStore } from 'src/stores/order';
 // const order: { id?: number; name: string; quantity: number; price: number }[] =
 // [];
 const order = [];
-const store = useAuthStore();
+const store = useOrderStore();
 
 const user = Object.assign({}, store.user);
 
@@ -174,12 +141,12 @@ export default defineComponent({
   methods: {
     addOrder() {
       const id = Math.floor(Math.random() * 100);
-      order.push({
+      store.addOrder(
         id,
-        name: this.item?.label,
-        quantity: this.ShoppingList.quantity,
-        price: this.item?.price * this.ShoppingList.quantity,
-      });
+        this.item.label,
+        this.ShoppingList.quantity,
+        this.item?.price * this.ShoppingList.quantity
+      );
       this.alertDialog = true;
       this.onReset();
     },
