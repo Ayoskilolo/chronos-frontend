@@ -1,4 +1,5 @@
 <template>
+  <q-page padding>
   <q-drawer v-model="drawer" show-if-above :width="200" :breakpoint="400">
     <q-scroll-area
       style="
@@ -8,12 +9,20 @@
       "
     >
       <q-list padding>
+
+        <q-item clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="home" />
+          </q-item-section>
+          <q-btn to="/home" flat no-caps>Home Page</q-btn>
+        </q-item>
+
         <q-item clickable v-ripple active>
           <q-item-section avatar>
             <q-icon name="shopping_cart" />
           </q-item-section>
 
-          <q-item-section> Your Cart </q-item-section>
+          <q-btn to="/home/cart" flat no-caps>Your Cart</q-btn>
         </q-item>
       </q-list>
     </q-scroll-area>
@@ -31,7 +40,6 @@
       </div> 
     </q-img>
   </q-drawer>
-  <q-page padding>
 
     <body>
     <div class="Cart-Container">
@@ -78,15 +86,19 @@
         </div>
     </div>
 </body>
-  </q-page>
-
-
+</q-page>
 </template>
 
 <script>
 import { defineComponent } from 'vue';
+import HomeContainer from '../components/HomeContainer.vue';
+import useOrderStore from 'src/stores/order';
+const OrderStore = useOrderStore;
+
 export default defineComponent({
-  // name: 'PageName'
+  // data () {
+
+  // }
 });
 </script>
 

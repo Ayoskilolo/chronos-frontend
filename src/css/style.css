@@ -189,3 +189,7 @@ hr{
     font-weight: 600;
     color: #202020;
 }
+
+ul {
+    list-style: none;
+}
