@@ -41,43 +41,43 @@
     </q-drawer>
 
     <body>
-      <div class="Cart-Container"> 
+      <div class="Cart-Container">
         <div class="Header">
           <h3 class="Heading">Shopping Cart</h3>
         </div>
 
         <ul>
           <li v-for="item in order" :key="item.id">
-        <div class="Cart-Items">
-          <div class="image-box">
-            <img :src=path style="height: 120px" />
-          </div>
+            <div class="Cart-Items">
+              <div class="image-box">
+                <img :src="`/img/${item.item}.png`" style="height: 120px" />
+              </div>
 
-          <div class="about">
-            <h1 class="title">{{item.item}}</h1>
-            <h3 class="subtitle">250ml</h3>
-            <!-- <img src="images/veg.png" style="height: 30px" /> -->
-          </div>
+              <div class="about">
+                <h1 class="title">{{ item.item }}</h1>
+                <h3 class="subtitle">250ml</h3>
+                <!-- <img src="images/veg.png" style="height: 30px" /> -->
+              </div>
 
-          <div class="counter">
-            <div class="count">{{item.quantity}}</div>
-          </div>
+              <div class="counter">
+                <div class="count">{{ item.quantity }}</div>
+              </div>
 
-          <div class="prices">
-            <div class="amount">${{ item.price }}</div>
-          </div>
-        </div>
-      </li>
-      </ul>
+              <div class="prices">
+                <div class="amount">${{ item.price }}</div>
+              </div>
+            </div>
+          </li>
+        </ul>
 
         <hr />
         <div class="checkout">
           <div class="total">
             <div>
               <div class="Subtotal">Sub-Total</div>
-              <div class="items">{{order.length}} items</div>
+              <div class="items">{{ order.length }} items</div>
             </div>
-            <div class="total-amount">$6.18</div>
+            <div class="total-amount">${{ subTotal }}</div>
           </div>
           <button class="button">Checkout</button>
         </div>
@@ -86,17 +86,20 @@
   </q-page>
 </template>
 
-<script setup>
-
+<script lang="ts" setup>
 import { useOrderStore } from 'src/stores/order';
+import { computed } from 'vue';
 
 const OrderStore = useOrderStore();
 const order = OrderStore.order;
 const userName = localStorage.userName;
 
-const path = `@/assets/img/${item.item}.png`
+const subTotal = computed(function () {
+  const total = order.reduce((p, i) => p + i.price, 0);
+  return total ? total : 0.0;
+});
 
-
+// const path = `@/assets/img/${item.item}.png`;
 </script>
 
 <style>
