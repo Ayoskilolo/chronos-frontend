@@ -128,16 +128,13 @@ async function sendOrder() {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${store.token}`,
   };
+  try {
+    await api.post('orders', { items: order, email: user.email }, { headers });
+  } catch (error) {
+    console.log(error.message);
+  }
 
-  const response = await api.post(
-    'orders',
-    { items: order, email: user.email },
-    { headers }
-  );
-  console.log(response);
-  localStorage.total = subTotal;
-
-  router.push({ path: 'home/success' });
+  router.push({ path: 'success' });
 }
 </script>
 
