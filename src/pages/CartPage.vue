@@ -55,7 +55,7 @@
 
               <div class="about">
                 <h1 class="title">{{ item.item }}</h1>
-                <h3 class="subtitle">250ml</h3>
+                <!-- <h3 class="subtitle">250ml</h3> -->
                 <!-- <img src="images/veg.png" style="height: 30px" /> -->
               </div>
 
@@ -79,7 +79,7 @@
             </div>
             <div class="total-amount">${{ subTotal }}</div>
           </div>
-          <button class="button">Checkout</button>
+          <q-btn class="button" @click="sendOrder">Checkout</q-btn>
         </div>
       </div>
     </body>
@@ -88,11 +88,16 @@
 
 <script lang="ts" setup>
 import { useOrderStore } from 'src/stores/order';
+import { useAuthStore  } from 'src/stores/auth';
 import { computed } from 'vue';
+import { api } from 'boot/axios';
 
 const OrderStore = useOrderStore();
 const order = OrderStore.order;
 const userName = localStorage.userName;
+
+const store = useAuthStore();
+const user = Object.assign({}, store.user);
 
 const subTotal = computed(function () {
   const total = order.reduce((p, i) => p + i.price, 0);
@@ -100,6 +105,41 @@ const subTotal = computed(function () {
 });
 
 // const path = `@/assets/img/${item.item}.png`;
+// console.log(order)
+// console.log(user)
+const headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${store.token}`,
+      };  
+const response =[{ items: order, email: user.email },
+      { headers }]
+      console.log(response)
+
+
+async function sendOrder() {
+      if (order.length === 0) {
+        return alert('Please place an order');
+      }
+      order.forEach((v) => {
+        delete v.id;
+      });
+
+      const headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${store.token}`,
+      };
+
+      const response = 
+       await api.post(
+        'orders',
+        { items: order, email: user.email },
+        { headers }
+      );
+      console.log(response)
+      localStorage.total = subTotal;
+
+      this.$router.push({ path: 'home/success' });
+    }
 </script>
 
 <style>

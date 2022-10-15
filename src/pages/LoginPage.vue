@@ -52,8 +52,8 @@
 </template>
 
 <script lang="ts">
-// import { useAuthStore } from 'src/stores/auth';
-// const store = useAuthStore();
+import { useAuthStore } from 'src/stores/auth';
+const store = useAuthStore();
 import { api } from 'boot/axios';
 import { defineComponent } from 'vue';
 export default defineComponent({
@@ -73,8 +73,12 @@ export default defineComponent({
           email: this.formData.email,
           password: this.formData.password,
         });
-        localStorage.token = response.data.token;
-        localStorage.userName = response.data.user.name;
+        store.token = response.data.token;
+        store.user.name = response.data.user.name;
+        store.user.email = response.data.user.email;
+        // console.log(store.token)
+        // console.log(store.user)
+        // console.log(store)
       } catch (e) {
         return alert('Incorrect username or password ');
       }

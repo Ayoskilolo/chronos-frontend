@@ -43,7 +43,7 @@
     <div
       class="row items-center justify-between"
       side
-      style="background-color: grey; width: 100%"
+      style="width: 100%"
     >
       <h3>Welcome</h3>
     </div>
@@ -81,7 +81,7 @@
           <q-dialog v-model="alertDialog">
             <q-card>
               <q-card-section>
-                <div class="text-h6">Alert</div>
+                <div class="text-h6">Note</div>
               </q-card-section>
 
               <q-card-section class="q-pt-none">
@@ -94,7 +94,7 @@
             </q-card>
           </q-dialog>
 
-          <q-dialog v-model="confirmDialog" persistent>
+          <!-- <q-dialog v-model="confirmDialog" persistent>
             <q-card>
               <q-card-section class="row items-center">
                 <div class="q-ml-sm">
@@ -121,7 +121,7 @@
                 />
               </q-card-actions>
             </q-card>
-          </q-dialog>
+          </q-dialog> -->
 
           <div>
             <q-btn label="Add" type="submit" color="primary" />
@@ -141,16 +141,17 @@
 
 <script>
 import { defineComponent } from 'vue';
-import { api } from 'boot/axios';
 import HomeContainer from '../components/HomeContainer.vue';
 import { useOrderStore } from 'src/stores/order';
+// import { useAuthStore} from 'src/stores/auth'
 // const order: { id?: number; name: string; quantity: number; price: number }[] =
 // [];
+
 
 const order = [];
 const store = useOrderStore();
 
-const user = Object.assign({}, store.user);
+// const user = Object.assign({}, store.user);
 
 export default defineComponent({
   components: { HomeContainer },
@@ -162,16 +163,16 @@ export default defineComponent({
       confirmDialog: false,
       item: null,
       options: [
-        { id: 1001, label: 'Avocado', price: 230, quantity: 10 , img:'Avocado.png'},
-        { id: 1002, label: 'Lotion', price: 250, quantity: 10 , img:'Lotion.png'},
-        { id: 1003, label: 'Pain Reliever', price: 500, quantity: 200, img:'Pain Reliever.png'},
-        { id: 1004, label: 'Dry Pasta', price: 20, quantity: 50 , img:'Dry Pasta.png'},
-        { id: 1005, label: 'Toothbrush', price: 700, quantity: 10 , img:'Toothbrush.png'},
-        { id: 1006, label: 'Halloween Candy', price: 33, quantity: 56 , img:'Halloween Candy.png'},
-        { id: 1007, label: 'Mascara', price: 765, quantity: 7 , img:'Mascara.png'},
-        { id: 1008, label: 'Juice', price: 764, quantity: 90 , img:'Juice.png'},
-        { id: 1009, label: 'Blush', price: 87, quantity: 50 , img:'Blush.png'},
-        { id: 1010, label: 'Granola Bars', price: 24, quantity: 6 , img:'Granola Bars.png'},
+        { id: 1001, label: 'Avocado', price: 230, quantity: 10 },
+        { id: 1002, label: 'Lotion', price: 250, quantity: 10 },
+        { id: 1003, label: 'Pain Reliever', price: 500, quantity: 200},
+        { id: 1004, label: 'Dry Pasta', price: 20, quantity: 50},
+        { id: 1005, label: 'Toothbrush', price: 700, quantity: 10 },
+        { id: 1006, label: 'Halloween Candy', price: 33, quantity: 56 },
+        { id: 1007, label: 'Mascara', price: 765, quantity: 7 },
+        { id: 1008, label: 'Juice', price: 764, quantity: 90 },
+        { id: 1009, label: 'Blush', price: 87, quantity: 50 },
+        { id: 1010, label: 'Granola Bars', price: 24, quantity: 6},
       ],
       ShoppingList: {
         quantity: null,
@@ -187,34 +188,13 @@ export default defineComponent({
         this.ShoppingList.quantity,
         this.item?.price * this.ShoppingList.quantity
       );
-      console.log(store.order);
+      // console.log(store.order);
       this.alertDialog = true;
       this.onReset();
     },
     onReset() {
       this.item = null;
       this.ShoppingList.quantity = null;
-    },
-    async sendOrder() {
-      if (order.length === 0) {
-        return alert('Please place an order');
-      }
-      order.forEach((v) => {
-        delete v.id;
-      });
-
-      const headers = {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${store.token}`,
-      };
-
-      const response = await api.post(
-        'orders',
-        { items: order, email: user.email },
-        { headers }
-      );
-      localStorage.total = response.data.total;
-      this.$router.push({ path: 'home/success' });
     },
   },
 });
