@@ -88,10 +88,12 @@
 
 <script lang="ts" setup>
 import { useOrderStore } from 'src/stores/order';
-import { useAuthStore  } from 'src/stores/auth';
+import { useAuthStore } from 'src/stores/auth';
 import { computed } from 'vue';
 import { api } from 'boot/axios';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const OrderStore = useOrderStore();
 const order = OrderStore.order;
 const userName = localStorage.userName;
@@ -108,38 +110,35 @@ const subTotal = computed(function () {
 // console.log(order)
 // console.log(user)
 const headers = {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${store.token}`,
-      };  
-const response =[{ items: order, email: user.email },
-      { headers }]
-      console.log(response)
-
+  'Content-Type': 'application/json',
+  Authorization: `Bearer ${store.token}`,
+};
+const response = [{ items: order, email: user.email }, { headers }];
+console.log(response);
 
 async function sendOrder() {
-      if (order.length === 0) {
-        return alert('Please place an order');
-      }
-      order.forEach((v) => {
-        delete v.id;
-      });
+  if (order.length === 0) {
+    return alert('Please place an order');
+  }
+  order.forEach((v) => {
+    delete v.id;
+  });
 
-      const headers = {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${store.token}`,
-      };
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${store.token}`,
+  };
 
-      const response = 
-       await api.post(
-        'orders',
-        { items: order, email: user.email },
-        { headers }
-      );
-      console.log(response)
-      localStorage.total = subTotal;
+  const response = await api.post(
+    'orders',
+    { items: order, email: user.email },
+    { headers }
+  );
+  console.log(response);
+  localStorage.total = subTotal;
 
-      this.$router.push({ path: 'home/success' });
-    }
+  router.push({ path: 'home/success' });
+}
 </script>
 
 <style>
