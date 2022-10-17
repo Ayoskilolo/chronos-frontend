@@ -14,10 +14,10 @@
     "@quasar/extras": "^1.0.0",
     "axios": "^1.1.0",
     "core-js": "^3.6.5",
-    "pinia": "^2.0.22",
+    "pinia": "^2.0.23",
     "quasar": "^2.9.2",
     "vue": "^3.2.40",
-    "vue-router": "^4.0.0"
+    "vue-router": "^4.1.5"
   },
   "devDependencies": {
     "@quasar/app-webpack": "^3.0.0",

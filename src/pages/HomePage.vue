@@ -157,7 +157,7 @@ export default defineComponent({
   components: { HomeContainer },
   data() {
     return {
-      userName: localStorage.userName,
+      userName: auth.user.name,
       myOrders: order,
       alertDialog: false,
       confirmDialog: false,
