@@ -2,7 +2,7 @@
   <q-page padding>
     <div side>
       <h3>Success!</h3>
-      <p>Your total is: {{ total }}</p>
+      <p>Your total is: ${{ total }}</p>
     </div>
   </q-page>
 </template>

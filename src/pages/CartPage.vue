@@ -106,9 +106,7 @@ const subTotal = computed(function () {
   return total ? total : 0.0;
 });
 
-// const path = `@/assets/img/${item.item}.png`;
-// console.log(order)
-// console.log(user)
+
 const headers = {
   'Content-Type': 'application/json',
   Authorization: `Bearer ${store.token}`,
@@ -135,6 +133,8 @@ async function sendOrder() {
   }
 
   router.push({ path: 'success' });
+
+  OrderStore.getTotal(subTotal)
 }
 </script>
 

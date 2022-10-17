@@ -15,5 +15,8 @@ export const useOrderStore = defineStore('order', {
       if (Object.keys(this.order[0]).length === 0) this.order.splice(0, 1);
       this.order.push({ id, item, quantity, price });
     },
+    getTotal(number: number) {
+      this.total = number;
+    }
   },
 });
