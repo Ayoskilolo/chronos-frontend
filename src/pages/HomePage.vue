@@ -143,13 +143,14 @@
 import { defineComponent } from 'vue';
 import HomeContainer from '../components/HomeContainer.vue';
 import { useOrderStore } from 'src/stores/order';
-// import { useAuthStore} from 'src/stores/auth'
+import { useAuthStore} from 'src/stores/auth';
 // const order: { id?: number; name: string; quantity: number; price: number }[] =
 // [];
 
 
 const order = [];
 const store = useOrderStore();
+const auth = useAuthStore();
 
 // const user = Object.assign({}, store.user);
 
