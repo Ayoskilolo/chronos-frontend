@@ -1,16 +1,7 @@
 import { RouteRecordRaw } from 'vue-router';
 
 const routes: RouteRecordRaw[] = [
-  {
-    path: '/',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/LoginPage.vue') },
-      { path: '/signup', component: () => import('pages/SignupPage.vue')},
-            ],
-  },
-
-  {
+    {
     path: '/home',
     component: () => import('layouts/HomeLayout.vue'),
     children: [
@@ -18,6 +9,15 @@ const routes: RouteRecordRaw[] = [
       {path: 'cart', component: () => import('pages/CartPage.vue')},
       {path: 'success',component: () => import('pages/SuccessPage.vue'),},
     ],
+  },
+  
+  {
+    path: '/',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '', component: () => import('pages/LoginPage.vue') },
+      { path: '/signup', component: () => import('pages/SignupPage.vue')},
+            ],
   },
 
   // Always leave this as last one,
